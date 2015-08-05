@@ -10,7 +10,7 @@ Download or clone the [swagger-node-slack](https://github.com/apigee-127/swagger
 
 In this example, a `swagger-node` API implementation provides the back-end "service" that we will integrate into Slack. We created two sample API implementations for you to try out with Slack:
 
-* An API that reverses whatever text you enter in Slack conversation. Silly, but it works!
+* An API that reverses whatever text you enter in a Slack conversation. Silly, but it works!
 
 * An API that fetches a stock quote and prints it to a Slack team conversation. Yes, it's amazing!
 
@@ -22,24 +22,24 @@ If you're going to try to do this tutorial, you'll need to do these steps first:
 
 1. You need to either be a member of or create a new Slack team. Go to [slack.com](slack.com) for details. In either case, you need to have permission to create integrations.
 
-2. Your app has to be reachable by Slack via HTTP, and it must be deployed to a platform that supports Node.js. We're going to deploy it to [Apigee Edge](http://apigee.com/about/products/api-management). To do that, you'll need to [sign up for an Apigee Account](https://accounts.apigee.com/accounts/sign_up). If you don't want to do that, you can deploy the app to any other Cloud platform that supports Node.js, like Heroku or AWS.
+2. Your app has to be reachable by Slack via HTTP, and it must be deployed to a platform that supports Node.js. We're going to deploy it to [Apigee Edge Cloud](http://apigee.com/about/products/api-management). To do that, you'll need to [sign up for an Apigee Account](https://accounts.apigee.com/accounts/sign_up). If you don't want to do that, you can deploy the app to any other Cloud platform that supports Node.js, like Heroku or AWS. However, we won't cover any other deployment options in this topic.
 
 
 ## About the integrations
 
 Here's a brief overview of the integrations we'll build here.
 
-### Text reverser "Slash Command" integration
+### Slash Command" integration (Text Reverser)
 
-Slack "slash commands" let you execute a function by entering it directly in a conversation. Here's how the Text Reverser command works. You'll enter it like this:
+Slack "slash commands" let you execute a function by entering it directly in a conversation. Here's how the Text Reverser integration we'll build here works. You'll enter it like this in Slack:
 
 `/reverse Hello World`
 
-And you get a reply with the characters reversed:
+And get a reply with the characters reversed:
 
 ![alt text](./images/reverse.png)
 
-### Stock ticker "Incoming WebHook" integration
+### Incoming WebHook" integration (Ticker-bot)
 
 Incoming WebHook integrations let you post data from an external source into Slack. Here's how our sample stock ticker integration works. In a Slack conversation, enter:
 
@@ -49,7 +49,7 @@ You get back a nicely formatted response, like this:
 
 ![alt text](./images/stockbot.png)
 
-## Integrating the text reverser API
+## Building the Slash Command integration (Text Reverser)
 
 Let's walk through the steps for integrating the "text reverser" API with Slack. We're not going to go overboard to explain how to set things up in Slack, but we'll give pointers to keep you on track. It's remarkably easy. 
 
@@ -172,54 +172,9 @@ And Slack returns the letters in reverse:
 
 The Slack Slash Command Integration called the `swagger-node-slack` app that was deployed on Apigee Edge. Slack retrieved the response and printed it to the chat window. 
 
-## Integrating the Ticker-bot API
 
-We'll assume you followed and tried out the "text reverser" integration, and only give a few tips to help you get the Ticker-bot working. 
 
-The Ticker-bot is an API implemented in `swagger-node` and added to Slack as an Incoming WebHook integration. This type of integration is designed to fetch some external data and display it in Slack. In this case, we implemented s `swagger-node` API that takes a stock symbol and returns the stock price.  
 
-### Run it locally
-
-1. cd to the `swagger-node-slack` directory on your system.
-2. Start the project:
-
-    `swagger project start`
-
-3. In a separate terminal window, call the API as shown below. 
-
-`curl -X POST -H "Content-Type: application/x-www-form-urlencoded" http://localhost:10010/ticker -d "token=xxx&user_name=xxx&command=xxx&text=AAPL"`
-
-It returns the current share price for AAPL. 
-
-### Create the Slack integration
-
-Now, let's go over to the Slack side.
-
-1. Log in to your Slack account. 
-
-1. From your Slack team menu, choose **Configure Integrations**.
-
-2. Scroll down to **DYI Integrations & Customizations** and click **Slash Commands**. 
-
-3. In **Choose Commands**, enter the command name `/reverse`. 
-
-4. Fill out the integration settings:
-
-    a. Command:  `/reverse`. 
-
-    b. URL: http://{your apigee org name}-{the apigee environment name}.apigee.net/slack/reverse
-    
-    For example: http://docs-test.apigee.net/slack/reverse
-
-    c. Method: POST
-
-    d. Token: You'll need this later.
-
-### Publish it
-
-If you already published the project to Apigee Edge, then you don't have to do that again. Otherwise, the steps are explained in the previous section on the text reverse integration. 
-
-## 
 
 
 
