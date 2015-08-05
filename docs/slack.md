@@ -43,7 +43,7 @@ And get a reply with the characters reversed:
 
 Incoming WebHook integrations let you post data from an external source into Slack. Here's how our sample stock ticker integration works. In a Slack conversation, enter:
 
-`ticker AAPL`
+`/ticker AAPL`
 
 You get back a nicely formatted response, like this:
 
@@ -171,7 +171,6 @@ And Slack returns the letters in reverse:
 ### What happened?
 
 The Slack Slash Command Integration called the `swagger-node-slack` app that was deployed on Apigee Edge. Slack retrieved the response and printed it to the chat window. 
-
 
 
 
