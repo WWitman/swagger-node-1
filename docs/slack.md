@@ -94,7 +94,7 @@ You can run the `swagger-node-slack` project locally, and hit the API just to se
 
     `swagger project start`
 
-3. In a separate terminal window, call the API like as shown below. Note that some of the parameters have dummy values (`xxx`). These parameters are marked as "required" by the API in the swagger.yaml file, so they have to be there. However, they are only used by the Slack integration -- when we're hitting the API locally (without using Slack), the values don't matter. 
+3. In a separate terminal window, call the API as shown below. Note that some of the parameters have dummy values (`xxx`). These parameters are marked as "required" by the API in the swagger.yaml file, so they have to be there. However, they are only used by the Slack integration -- when we're hitting the API locally (without using Slack), the values don't matter. 
 
     `curl -X POST -H "Content-Type: application/x-www-form-urlencoded" http://localhost:10010/reverse -d "token=xxx&user_name=xxx&command=xxx&text=Apigee"`
 
@@ -156,7 +156,7 @@ For this example, we'll publish the app to the [Apigee Edge](http://www.apigee.c
 
     For help on this command, enter `apigeetool deploynodeapp -h`.
 
-## Test it
+### Test it
 
 Now we can hit our API directly from a Slack team channel. In your Slack team channel, enter the `/reverse` command with some text to reverse:
 
@@ -168,10 +168,58 @@ And Slack returns the letters in reverse:
 
 ![alt text](./images/quickfox-2.png)
 
-## What happened?
+### What happened?
 
 The Slack Slash Command Integration called the `swagger-node-slack` app that was deployed on Apigee Edge. Slack retrieved the response and printed it to the chat window. 
 
+## Integrating the Ticker-bot API
+
+We'll assume you followed and tried out the "text reverser" integration, and only give a few tips to help you get the Ticker-bot working. 
+
+The Ticker-bot is an API implemented in `swagger-node` and added to Slack as an Incoming WebHook integration. This type of integration is designed to fetch some external data and display it in Slack. In this case, we implemented s `swagger-node` API that takes a stock symbol and returns the stock price.  
+
+### Run it locally
+
+1. cd to the `swagger-node-slack` directory on your system.
+2. Start the project:
+
+    `swagger project start`
+
+3. In a separate terminal window, call the API as shown below. 
+
+`curl -X POST -H "Content-Type: application/x-www-form-urlencoded" http://localhost:10010/ticker -d "token=xxx&user_name=xxx&command=xxx&text=AAPL"`
+
+It returns the current share price for AAPL. 
+
+### Create the Slack integration
+
+Now, let's go over to the Slack side.
+
+1. Log in to your Slack account. 
+
+1. From your Slack team menu, choose **Configure Integrations**.
+
+2. Scroll down to **DYI Integrations & Customizations** and click **Slash Commands**. 
+
+3. In **Choose Commands**, enter the command name `/reverse`. 
+
+4. Fill out the integration settings:
+
+    a. Command:  `/reverse`. 
+
+    b. URL: http://{your apigee org name}-{the apigee environment name}.apigee.net/slack/reverse
+    
+    For example: http://docs-test.apigee.net/slack/reverse
+
+    c. Method: POST
+
+    d. Token: You'll need this later.
+
+### Publish it
+
+If you already published the project to Apigee Edge, then you don't have to do that again. Otherwise, the steps are explained in the previous section on the text reverse integration. 
+
+## 
 
 
 
