@@ -219,7 +219,7 @@ And Slack returns the letters in reverse:
 
 The Slack Slash Command Integration called the `swagger-node-slack` app that was deployed on Apigee Edge. Slack retrieved the response and printed it to the chat window. 
 
-## Part 2: Building the Slash Command integration (Text Reverser)
+## Part 2: Building the Incoming WebHooks integration (Ticker-bot)
 
 The Ticker-bot is an API implemented in `swagger-node` and added to Slack as an Incoming WebHook integration. This type of integration is designed to fetch some external data and display it in Slack. In this case, we implemented s `swagger-node` API that takes a stock symbol and sends the stock price to Slack. 
 
